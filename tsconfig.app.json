@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "declaration": true,
+    "declarationDir": "lib",
+    "outDir": "lib",
+    "types": ["vite/client"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "src/**/__tests__/*",
+    "src/**/__specs__/*",
+    "src/**/*.test.*",
+    "src/**/*.spec.*"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "vitepress-plugin-component-demo",
+  "version": "1.0.0",
+  "description": "Vitepress component demo block in markdown.",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "keywords": [
+    "vitepress",
+    "markdown",
+    "component",
+    "demo"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "publish:beta": "npm version prerelease --preid=beta && npm publish",
+    "publish:patch": "npm version patch && npm publish",
+    "version": "npm run build",
+    "postversion": "git push --all && git push --tags",
+    "build": "rollupx",
+    "docs:dev": "vitepress dev .",
+    "docs:build": "vitepress build ."
+  },
+  "author": "yujinpan",
+  "devDependencies": {
+    "@types/node": "^18.7.23",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "@vue/babel-preset-app": "4.5.18",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^3.5.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "glob": "^10.1.0",
+    "prettier": "^2.7.1",
+    "rollupx": "^3.1.1",
+    "typescript": "^4.8.3"
+  },
+  "bugs": {
+    "url": "https://github.com/yujinpan/vitepress-plugin-component-demo/issues"
+  },
+  "homepage": "https://github.com/yujinpan/vitepress-plugin-component-demo#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yujinpan/vitepress-plugin-component-demo.git"
+  }
+}
