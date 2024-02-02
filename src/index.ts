@@ -4,7 +4,7 @@ import type { EnhanceAppContext } from 'vitepress';
 
 import demo from './demo.vue';
 
-const enhanceApp = async ({
+export const enhanceApp = async ({
   app,
   components,
 }: EnhanceAppContext & { components }) => {
@@ -20,5 +20,3 @@ const enhanceApp = async ({
     );
   });
 };
-
-export default enhanceApp;
