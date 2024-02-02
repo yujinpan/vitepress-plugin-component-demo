@@ -2,12 +2,12 @@ import fs from 'fs';
 import * as glob from 'glob';
 import path from 'path';
 
-import type { SiteConfig } from 'vitepress-v2';
+import type { SiteConfig } from 'vitepress';
 
 export default {
   async load() {
     const config: SiteConfig = (global as any).VITEPRESS_CONFIG;
-    const createMarkdownRenderer = await import('vitepress-v2').then(
+    const createMarkdownRenderer = await import('vitepress').then(
       (res) => res.createMarkdownRenderer,
     );
     const md = await createMarkdownRenderer(

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitepress-v2';
+import { defineConfig } from 'vitepress';
 
 export default defineConfig({
   appearance: true,

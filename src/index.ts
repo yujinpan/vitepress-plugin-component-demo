@@ -1,6 +1,6 @@
 import { defineAsyncComponent } from 'vue';
 
-import type { EnhanceAppContext } from 'vitepress-v2';
+import type { EnhanceAppContext } from 'vitepress';
 
 import demo from './demo.vue';
 
