@@ -23,14 +23,27 @@ Directory Structure
 │   └── README.md
 ```
 
-theme/config.mts
+config.mts
+
+```ts
+import { defineConfig } from 'vitepress';
+import vitePlugin from 'vitepress-plugin-component-demo/lib/es/vite-plugin';
+
+export default defineConfig({
+  vite: {
+    plugins: [vitePlugin]
+  }
+})
+```
+
+theme/config.ts
 
 ```ts
 import DefaultTheme from 'vitepress/theme';
 
 import type { Theme } from 'vitepress';
 
-import enhanceApp from 'vitepress-plugin-component-demo';
+import { enhanceApp } from 'vitepress-plugin-component-demo';
 
 export default {
   extends: DefaultTheme,
@@ -40,7 +53,7 @@ export default {
       components: import.meta.glob('../components/**/*.vue'),
     });
   },
-} satisfies Theme;
+} as Theme;
 ```
 
 README.md
@@ -86,7 +99,7 @@ custom-demo.vue
 </template>
 
 <script>
-import { data } from "vitepress-plugin-component-demo/lib/es/codes.data.js";
+import { data } from "vitepress-plugin-component-demo/lib/es/demo-codes.js";
 
 export default {
   props: {
