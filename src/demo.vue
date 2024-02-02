@@ -4,13 +4,13 @@
     <component :is="name" />
     <details class="details custom-block">
       <summary>Click me to show code</summary>
-      <span class="code" v-html="code"></span>
+      <span v-html="code"></span>
     </details>
   </div>
 </template>
 
 <script>
-import { data } from './codes.data'
+import { data } from './demo-codes'
 
 export default {
   props: {
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style scoped>
-.code {
+.custom-block {
   font-size: 16px;
 }
 </style>
