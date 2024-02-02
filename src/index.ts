@@ -2,7 +2,7 @@ import { defineAsyncComponent } from 'vue';
 
 import type { EnhanceAppContext } from 'vitepress';
 
-import demo from './demo.vue';
+import demo from './demo.js';
 
 export const enhanceApp = async ({
   app,
