@@ -35,7 +35,7 @@ export default {
           'custom-block': true,
           [this.type]: true,
         },
-        style: 'font-size: 16px',
+        style: 'background:transparent;border-color:var(--vp-c-divider)',
       },
       [
         h('p', { class: 'custom-block-title' }, this.title),
@@ -43,20 +43,19 @@ export default {
         h(
           this.$?.appContext?.components?.[this.componentName] ||
             this.componentName,
+          { style: 'font-size: 16px' },
         ),
-        h(
-          'details',
-          { class: 'details custom-block', style: 'font-size: 16px' },
-          [
-            h('summary', undefined, 'Click me to show code'),
-            h('span', {
+        h('details', { class: 'details custom-block' }, [
+          h('summary', undefined, 'Click me to show code'),
+          h('span', {
+            style: 'font-size: 16px',
+            // vue3 || vue2
+            innerHTML: this.code,
+            domProps: {
               innerHTML: this.code,
-              domProps: {
-                innerHTML: this.code,
-              },
-            }),
-          ],
-        ),
+            },
+          }),
+        ]),
       ],
     );
   },
