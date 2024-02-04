@@ -2,7 +2,7 @@ import { defineAsyncComponent } from 'vue';
 
 import type { EnhanceAppContext } from 'vitepress';
 
-import demo from './demo.js';
+import demo from './demo';
 
 export const enhanceApp = async ({
   app,
@@ -12,7 +12,7 @@ export const enhanceApp = async ({
 
   Object.keys(components).forEach((item) => {
     const relative = item.replace(/.*components\//, '');
-    const name = relative.replace(/\.vue$/, '');
+    const name = relative.replace(/\.vue$/, '').replaceAll('/', '-');
 
     app.component(
       name,

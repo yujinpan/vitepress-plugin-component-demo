@@ -1,10 +1,15 @@
 import { h } from 'vue';
 
-import { data } from './demo-codes';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { data } from './demo-codes.data';
 
 export default {
   props: {
-    name: String,
+    name: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       default: '',
@@ -17,6 +22,9 @@ export default {
   computed: {
     code() {
       return data[this.name];
+    },
+    componentName() {
+      return this.name.replaceAll('/', '-');
     },
   },
   render() {
@@ -31,13 +39,18 @@ export default {
       },
       [
         h('p', { class: 'custom-block-title' }, this.title),
-        h(this.name),
+        // vue3 || vue2
+        h(
+          this.$?.appContext?.components?.[this.componentName] ||
+            this.componentName,
+        ),
         h(
           'details',
           { class: 'details custom-block', style: 'font-size: 16px' },
           [
             h('summary', undefined, 'Click me to show code'),
             h('span', {
+              innerHTML: this.code,
               domProps: {
                 innerHTML: this.code,
               },

@@ -6,8 +6,8 @@ import { enhanceApp } from '../../src';
 
 export default {
   extends: DefaultTheme,
-  enhanceApp(context) {
-    enhanceApp({
+  async enhanceApp(context) {
+    await enhanceApp({
       ...context,
       components: import.meta.glob('../components/**/*.vue'),
     });

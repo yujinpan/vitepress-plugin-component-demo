@@ -27,11 +27,11 @@ config.mts
 
 ```ts
 import { defineConfig } from 'vitepress';
-import vitePlugin from 'vitepress-plugin-component-demo/lib/es/vite-plugin';
 
 export default defineConfig({
-  vite: {
-    plugins: [vitePlugin]
+  optimizeDeps: {
+    // node_modules is unresolved, exclude this to resolve it
+    exclude: ['vitepress-plugin-component-demo']
   }
 })
 ```
