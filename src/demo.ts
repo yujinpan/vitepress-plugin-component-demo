@@ -19,10 +19,21 @@ export default {
       default: 'info',
     },
   },
+  data() {
+    return {
+      code: '',
+    };
+  },
+  mounted() {
+    import(
+      `./demo-codes/${this.name.replaceAll('/', '_')}.html?raw&${
+        data[this.name]
+      }`
+    ).then((res) => {
+      this.code = res.default;
+    });
+  },
   computed: {
-    code() {
-      return data[this.name];
-    },
     componentName() {
       return this.name.replaceAll('/', '-');
     },

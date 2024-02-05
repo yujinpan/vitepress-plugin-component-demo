@@ -1,12 +1,20 @@
 import fs from 'fs';
-import * as glob from 'glob';
+import { fileURLToPath } from 'node:url';
 import path from 'path';
 
 import type { SiteConfig } from 'vitepress';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const config: SiteConfig = (global as any).VITEPRESS_CONFIG;
+const componentsPath = path.resolve(config.srcDir, './.vitepress/components');
+const componentsGlob = path.resolve(componentsPath, '**/*.vue');
+
+const cache = {};
+
 export default {
-  async load() {
-    const config: SiteConfig = (global as any).VITEPRESS_CONFIG;
+  watch: [componentsGlob],
+  async load(files) {
     const createMarkdownRenderer = await import('vitepress').then(
       (res) => res.createMarkdownRenderer,
     );
@@ -17,23 +25,26 @@ export default {
       config.logger,
     );
 
-    const componentsPath = path.resolve(
-      config.srcDir,
-      './.vitepress/components',
-    );
+    files.map((file) => {
+      const timestamp = fs.statSync(file).mtimeMs;
+      const relative = path.relative(componentsPath, file);
+      const name = relative.slice(0, -path.extname(relative).length);
+      if (cache[name] === timestamp) {
+        return;
+      }
+      cache[name] = timestamp;
 
-    return glob
-      .sync(path.resolve(componentsPath, '**/*.vue'))
-      .reduce((prev, next) => {
-        const relative = path.relative(componentsPath, next);
-        const name = relative.slice(0, -path.extname(relative).length);
-        const content = fs.readFileSync(next).toString();
-        const code = md.render(`\`\`\`vue\n${content}\n\`\`\``);
+      const content = fs.readFileSync(file).toString();
+      const code = md.render(`\`\`\`vue\n${content}\n\`\`\``);
 
-        return {
-          ...prev,
-          [name]: code,
-        };
-      }, {});
+      const destFile = path.resolve(
+        __dirname,
+        `./demo-codes/${name.replaceAll('/', '_')}.html`,
+      );
+      fs.mkdirSync(path.dirname(destFile), { recursive: true });
+      fs.writeFileSync(destFile, code);
+    }, {});
+
+    return cache;
   },
 };
