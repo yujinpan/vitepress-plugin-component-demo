@@ -1,8 +1,6 @@
 import { h } from 'vue';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { data } from './demo-codes.data';
+import { getDemoCode } from './demo-codes';
 
 export default {
   props: {
@@ -25,12 +23,8 @@ export default {
     };
   },
   mounted() {
-    import(
-      `./demo-codes/${this.name.replaceAll('/', '_')}.html?raw&${
-        data[this.name]
-      }`
-    ).then((res) => {
-      this.code = res.default;
+    getDemoCode(this.name).then((res) => {
+      this.code = res;
     });
   },
   computed: {
