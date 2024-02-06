@@ -68,7 +68,7 @@ description...
 <demo name="function1" />
 ```
 
-Result
+[Result](./function1.md)
 
 ![Result](./result.png)
 
@@ -99,17 +99,22 @@ custom-demo.vue
 </template>
 
 <script>
-import { data } from "vitepress-plugin-component-demo/lib/es/demo-codes.js";
+import { getDemoCode } from "vitepress-plugin-component-demo/lib/es/demo-codes.js";
 
 export default {
   props: {
     name: String,
   },
-  computed: {
-    code() {
-      return data[this.name];
-    },
+  data() {
+    return {
+      code: ''
+    }
   },
+  mounted() {
+    getDemoCode(this.name).then((res) => {
+      this.code = res;
+    })
+  }
 };
 </script>
 ```
