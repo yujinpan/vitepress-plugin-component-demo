@@ -1,8 +1,8 @@
 // function1/base => function1_base
-export function filePathToName(filePath: string) {
-  return filePath.replaceAll('/', '_');
+export function filePathToName(filePath: string, timestamp: number) {
+  return filePath.replaceAll('/', '_') + '-' + timestampToName(timestamp);
 }
 
 export function timestampToName(timestamp: number) {
-  return 'file-' + String(timestamp).replace('.', '_');
+  return String(timestamp).replace('.', '_');
 }

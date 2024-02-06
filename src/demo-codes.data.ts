@@ -4,7 +4,7 @@ import path from 'path';
 
 import type { SiteConfig } from 'vitepress';
 
-import { filePathToName, timestampToName } from './utils';
+import { filePathToName } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -40,22 +40,20 @@ export default {
       if (cache[name] === timestamp) {
         return;
       }
-      const oldFilename = timestampToName(cache[name]);
-      const newFilename = timestampToName(timestamp);
+      const oldFilename = filePathToName(name, cache[name]);
+      const newFilename = filePathToName(name, timestamp);
 
       cache[name] = timestamp;
 
       const content = fs.readFileSync(file).toString();
       const code = md.render(`\`\`\`vue\n${content}\n\`\`\``);
 
-      const dest = path.resolve(tempDir, `./${filePathToName(name)}`);
-      if (fs.existsSync(dest)) {
-        fs.rmSync(path.resolve(dest, `./${oldFilename}.html`), { force: true });
-      } else {
-        fs.mkdirSync(dest);
+      const oldFile = path.resolve(tempDir, `./${oldFilename}.html`);
+      if (fs.existsSync(oldFile)) {
+        fs.rmSync(oldFile);
       }
 
-      const destFile = path.resolve(dest, `./${newFilename}.html`);
+      const destFile = path.resolve(tempDir, `./${newFilename}.html`);
       fs.writeFileSync(destFile, code);
     }, {});
 
