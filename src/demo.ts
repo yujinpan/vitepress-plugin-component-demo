@@ -1,6 +1,6 @@
 import { h } from 'vue';
 
-import { getDemoCode } from './demo-codes';
+import { getDemo } from './demo-codes';
 
 export default {
   props: {
@@ -20,17 +20,14 @@ export default {
   data() {
     return {
       code: '',
+      component: undefined,
     };
   },
   mounted() {
-    getDemoCode(this.name).then((res) => {
-      this.code = res;
+    getDemo(this.name).then((res) => {
+      this.component = res.component;
+      this.code = res.code;
     });
-  },
-  computed: {
-    componentName() {
-      return this.name.replaceAll('/', '-');
-    },
   },
   render() {
     return h(
@@ -44,12 +41,8 @@ export default {
       },
       [
         h('p', { class: 'custom-block-title' }, this.title),
-        // vue3 || vue2
-        h(
-          this.$?.appContext?.components?.[this.componentName] ||
-            this.componentName,
-          { style: 'font-size: 16px' },
-        ),
+        this.component &&
+          h({ ...this.component }, { style: 'font-size: 16px' }),
         h('details', { class: 'details custom-block' }, [
           h('summary', undefined, 'Click me to show code'),
           h('span', {

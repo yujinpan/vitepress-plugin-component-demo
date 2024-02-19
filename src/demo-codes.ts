@@ -1,11 +1,22 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { data } from './demo-codes.data';
-import { filePathToName } from './utils';
+import * as demo from 'virtual:demo';
 
-// function1/base => `<div>...</div>`
-export const getDemoCode = (name: string): Promise<string> => {
-  return import(`./temp/${filePathToName(name, data[name])}.html?raw`).then(
-    (res) => res.default,
-  );
+import { filePathToName, getDemoCodeName, getDemoComponentName } from './utils';
+
+// function1/base => { code: '<div>...</div>', component: {} }
+export const getDemo = async (
+  name: string,
+): Promise<{
+  code: string;
+  component: any;
+}> => {
+  const componentName = filePathToName(name);
+  return Promise.all([
+    demo[getDemoComponentName(componentName)](),
+    demo[getDemoCodeName(componentName)](),
+  ]).then(([component, code]) => ({
+    component: component.default,
+    code: code.default,
+  }));
 };

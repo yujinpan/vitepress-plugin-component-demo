@@ -27,11 +27,11 @@ config.mts
 
 ```ts
 import { defineConfig } from 'vitepress';
+import vitePlugin from 'vitepress-plugin-component-demo/lib/es/vite-plugin';
 
 export default defineConfig({
-  optimizeDeps: {
-    // node_modules is unresolved, exclude this to resolve it
-    exclude: ['vitepress-plugin-component-demo']
+  vite: {
+    plugins: [vitePlugin()]
   }
 })
 ```
@@ -48,10 +48,7 @@ import { enhanceApp } from 'vitepress-plugin-component-demo';
 export default {
   extends: DefaultTheme,
   enhanceApp(context) {
-    enhanceApp({
-      ...context,
-      components: import.meta.glob('../components/**/*.vue'),
-    });
+    enhanceApp(context);
   },
 } as Theme;
 ```
@@ -99,7 +96,7 @@ custom-demo.vue
 </template>
 
 <script>
-import { getDemoCode } from "vitepress-plugin-component-demo/lib/es/demo-codes.js";
+import { getDemo } from "vitepress-plugin-component-demo/lib/es/demo-codes.js";
 
 export default {
   props: {
@@ -111,8 +108,8 @@ export default {
     }
   },
   mounted() {
-    getDemoCode(this.name).then((res) => {
-      this.code = res;
+    getDemo(this.name).then((res) => {
+      this.code = res.code;
     })
   }
 };

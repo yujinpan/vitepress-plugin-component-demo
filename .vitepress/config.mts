@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress';
+import vitePlugin from '../src/vite-plugin';
 
 export default defineConfig({
   appearance: true,
@@ -37,4 +38,10 @@ export default defineConfig({
       gtag('config', 'G-xxx');`
     ]
   ],
+
+  vite: {
+    plugins: [
+      vitePlugin()
+    ]
+  }
 });
