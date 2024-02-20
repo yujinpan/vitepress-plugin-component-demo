@@ -2,9 +2,19 @@
   "name": "vitepress-plugin-component-demo",
   "version": "1.0.1-beta.4",
   "description": "Vitepress component demo block in markdown.",
-  "main": "lib/cjs/index.js",
-  "module": "lib/es/index.js",
+  "type": "module",
+  "main": "lib/index.js",
   "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./vite-plugin": {
+      "types": "./types/vite-plugin.d.ts",
+      "default": "./lib/vite-plugin.js"
+    }
+  },
   "files": [
     "lib",
     "types"
@@ -40,7 +50,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "glob": "^10.1.0",
     "prettier": "^2.7.1",
-    "rollupx": "^3.1.8",
+    "rollupx": "^3.1.9",
     "typescript": "^4.8.3",
     "vitepress": "^1.0.0-rc.41"
   },
