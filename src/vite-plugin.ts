@@ -1,5 +1,5 @@
 import fs from 'fs';
-import glob from 'glob';
+import fg from 'fast-glob';
 import path from 'path';
 import { createMarkdownRenderer } from 'vitepress';
 
@@ -47,7 +47,7 @@ const vitePlugin = (options?: { componentsDir: string }): Plugin => {
       if (id === resolvedVirtualModuleId) {
         let codes = '';
 
-        const files = glob.sync(path.resolve(componentsPath, '**/*.vue'));
+        const files = fg.globSync(path.resolve(componentsPath, '**/*.vue'));
         files.forEach((file) => {
           const name = getModuleNameFromPath(file);
           codes += `export const ${getDemoComponentName(
