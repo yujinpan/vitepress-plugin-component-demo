@@ -31,6 +31,10 @@ import vitePlugin from 'vitepress-plugin-component-demo/lib/es/vite-plugin';
 
 export default defineConfig({
   vite: {
+    optimizeDeps: {
+      // node_modules is unresolved, exclude this to resolve it
+      exclude: ["vitepress-plugin-component-demo"],
+    },
     plugins: [vitePlugin()]
   }
 })
