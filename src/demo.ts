@@ -34,6 +34,7 @@ export default {
       'div',
       {
         class: {
+          demo: true,
           'custom-block': true,
           [this.type]: true,
         },
@@ -41,8 +42,11 @@ export default {
       },
       [
         h('p', { class: 'custom-block-title' }, this.title),
-        this.component &&
-          h({ ...this.component }, { style: 'font-size: 16px' }),
+        h(
+          'div',
+          { class: 'demo__main', style: 'font-size: 16px' },
+          this.component && h({ ...this.component }),
+        ),
         h('details', { class: 'details custom-block' }, [
           h('summary', undefined, 'Click me to show code'),
           h('span', {
