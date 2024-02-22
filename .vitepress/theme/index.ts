@@ -6,7 +6,7 @@ import { enhanceApp } from '../../src';
 
 export default {
   extends: DefaultTheme,
-  async enhanceApp(context) {
-    await enhanceApp(context);
+  enhanceApp(context) {
+    enhanceApp(context);
   },
 } satisfies Theme;
