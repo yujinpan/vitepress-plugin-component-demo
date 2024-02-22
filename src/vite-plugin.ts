@@ -1,5 +1,5 @@
-import fs from 'fs';
 import fg from 'fast-glob';
+import fs from 'fs';
 import path from 'path';
 import { createMarkdownRenderer } from 'vitepress';
 
@@ -34,6 +34,12 @@ const vitePlugin = (options?: { componentsDir: string }): Plugin => {
 
   return {
     name: 'vitepress-plugin-component-demo:demo',
+    config: () => {
+      return {
+        optimizeDeps: { exclude: [virtualModuleId] },
+        ssr: { noExternal: ['vitepress-plugin-component-demo'] },
+      };
+    },
     configResolved() {
       config = (global as any).VITEPRESS_CONFIG;
       componentsPath = path.resolve(config.srcDir, options.componentsDir);
