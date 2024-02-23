@@ -45,7 +45,7 @@ export default {
         h(
           'div',
           { class: 'demo__main', style: 'font-size: 16px' },
-          this.component && h({ ...this.component }),
+          this.component && [h({ ...this.component })],
         ),
         h('details', { class: 'details custom-block' }, [
           h('summary', undefined, 'Click me to show code'),
