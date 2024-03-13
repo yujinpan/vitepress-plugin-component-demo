@@ -1,6 +1,6 @@
 import { h } from 'vue';
 
-import { getDemo } from './demo-codes';
+import { getDemo, handleDemoCodeHotUpdate } from './demo-codes';
 
 export default {
   props: {
@@ -27,6 +27,9 @@ export default {
     getDemo(this.name).then((res) => {
       this.component = res.component;
       this.code = res.code;
+    });
+    handleDemoCodeHotUpdate(this.name, (code) => {
+      this.code = code;
     });
   },
   render() {

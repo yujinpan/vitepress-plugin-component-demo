@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import * as demo from 'virtual:demo';
 
 import { filePathToName, getDemoCodeName, getDemoComponentName } from './utils';
@@ -17,4 +19,18 @@ export const getDemo = async (
     component: component.default,
     code: code.default,
   }));
+};
+
+export const handleDemoCodeHotUpdate = async (
+  name: string,
+  callback: (code: string) => void,
+) => {
+  if (import.meta.hot) {
+    import.meta.hot.on('update:demo-code', (event) => {
+      const componentName = filePathToName(name);
+      if (event.componentName === componentName) {
+        callback(event.code);
+      }
+    });
+  }
 };

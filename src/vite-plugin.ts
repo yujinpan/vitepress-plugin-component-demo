@@ -32,6 +32,22 @@ const vitePlugin = (options?: { componentsDir: string }): Plugin => {
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
   const codeSuffix = '?raw&code';
 
+  const fileChangeMap: Record<string, 'update' | 'create' | 'delete'> = {};
+
+  const getComponentCode = async (id: string) => {
+    md =
+      md ||
+      (await createMarkdownRenderer(
+        config.srcDir,
+        config.markdown,
+        config.site.base,
+        config.logger,
+      ));
+    const file = id.replace(codeSuffix, '');
+    const content = fs.readFileSync(file).toString();
+    return md.render(`\`\`\`vue\n${content}\n\`\`\``);
+  };
+
   return {
     name: 'vitepress-plugin-component-demo:demo',
     config: () => {
@@ -69,19 +85,27 @@ const vitePlugin = (options?: { componentsDir: string }): Plugin => {
     },
     async transform(code, id) {
       if (id.endsWith(codeSuffix)) {
-        md =
-          md ||
-          (await createMarkdownRenderer(
-            config.srcDir,
-            config.markdown,
-            config.site.base,
-            config.logger,
-          ));
-        const file = id.replace(codeSuffix, '');
-        const content = fs.readFileSync(file).toString();
-        const code = md.render(`\`\`\`vue\n${content}\n\`\`\``);
-
-        return `export default ${JSON.stringify(code)}`;
+        return `export default ${JSON.stringify(await getComponentCode(id))}`;
+      }
+    },
+    watchChange(id, { event }) {
+      fileChangeMap[id] = event;
+    },
+    async handleHotUpdate(ctx) {
+      if (ctx.file.startsWith(componentsPath)) {
+        // Reload virtual:demo module on file creation/deletion
+        if (fileChangeMap[ctx.file] !== 'update') {
+          ctx.modules.push(
+            ctx.server.moduleGraph.getModuleById(resolvedVirtualModuleId),
+          );
+        }
+        // trigger client hot change
+        else {
+          ctx.server.ws.send('update:demo-code', {
+            componentName: getModuleNameFromPath(ctx.file),
+            code: await getComponentCode(ctx.file),
+          });
+        }
       }
     },
   };
