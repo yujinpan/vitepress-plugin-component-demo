@@ -29,10 +29,8 @@
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "publish:beta": "npm version prerelease --preid=beta && npm publish",
-    "publish:patch": "npm version patch && npm publish",
-    "version": "npm run build",
-    "postversion": "git push --all && git push --tags",
+    "publish:beta": "release-ops beta",
+    "publish:patch": "release-ops patch",
     "build": "rollupx",
     "docs:dev": "vitepress dev .",
     "docs:build": "vitepress build ."
@@ -61,5 +59,8 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/yujinpan/vitepress-plugin-component-demo.git"
+  },
+  "dependencies": {
+    "release-ops": "^1.0.1-beta.3"
   }
 }
