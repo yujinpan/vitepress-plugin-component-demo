@@ -32,8 +32,6 @@ const vitePlugin = (options?: { componentsDir: string }): Plugin => {
   const resolvedVirtualModuleId = '\0' + virtualModuleId;
   const codeSuffix = '?raw&code';
 
-  const fileChangeMap: Record<string, 'update' | 'create' | 'delete'> = {};
-
   const getComponentCode = async (id: string) => {
     md =
       md ||
@@ -88,13 +86,12 @@ const vitePlugin = (options?: { componentsDir: string }): Plugin => {
         return `export default ${JSON.stringify(await getComponentCode(id))}`;
       }
     },
-    watchChange(id, { event }) {
-      fileChangeMap[id] = event;
-    },
     async handleHotUpdate(ctx) {
       if (ctx.file.startsWith(componentsPath)) {
+        const isNew = !ctx.server.moduleGraph.getModuleById(ctx.file);
+
         // Reload virtual:demo module on file creation/deletion
-        if (fileChangeMap[ctx.file] !== 'update') {
+        if (isNew) {
           ctx.modules.push(
             ctx.server.moduleGraph.getModuleById(resolvedVirtualModuleId),
           );
