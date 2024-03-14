@@ -1,6 +1,6 @@
 {
   "name": "vitepress-plugin-component-demo",
-  "version": "1.0.1-beta.10",
+  "version": "1.0.1-beta.11",
   "description": "Vitepress component demo block in markdown.",
   "type": "module",
   "main": "lib/index.js",
