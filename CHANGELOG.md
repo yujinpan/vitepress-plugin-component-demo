@@ -1,3 +1,5 @@
+## [1.0.1](https://github.com/yujinpan/vitepress-plugin-component-demo/compare/v1.0.1-beta.11...v1.0.1) (2024-04-03)
+
 ## [1.0.1-beta.11](https://github.com/yujinpan/vitepress-plugin-component-demo/compare/v1.0.1-beta.10...v1.0.1-beta.11) (2024-03-14)
 
 ### Bug Fixes
